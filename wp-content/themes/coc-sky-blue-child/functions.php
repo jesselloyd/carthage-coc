@@ -56,5 +56,3 @@ function coc_get_leadership_list() {
 
     return ob_get_clean();
 }
-
-
