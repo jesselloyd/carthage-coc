@@ -25,6 +25,11 @@ function church_directory_options() {
 		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 	}
 	echo '<div class="wrap">';
-	echo '<input placeholder="Search">';
+    echo '<h1>Church Directory</h1>';
+    echo '<div class="group"><input name="directory_search" class="plugin-search pull-left" placeholder="Search for Members">';
+    echo '<button id="create-member" class="button button-primary action pull-right">Add Member</button>';
+    echo '<button id="review-member-requests" class="button button-primary action pull-right">Review Membership Requests</button></div>';
+    echo '<h3>Directory</h3>';
+    echo '========= PAGINATED DIRECTORY TO GO HERE =========';
 	echo '</div>';
 }

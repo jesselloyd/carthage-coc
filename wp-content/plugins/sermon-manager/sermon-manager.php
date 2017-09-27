@@ -12,6 +12,9 @@
  * @package         Sermon_Manager
  */
 
+
+require_once( dirname(__FILE__) . '/inc/youtube-live-stream.php');
+
 add_action('admin_head', 'plugin_menu_styles');
 
 function plugin_menu_styles() {
@@ -42,6 +45,10 @@ function plugin_menu_styles() {
 
         input.plugin-search {
             min-width: 60%;
+        }
+
+        button.pull-right + button.pull-right {
+            margin-right: 1rem;
         }
     </style>
     <?php

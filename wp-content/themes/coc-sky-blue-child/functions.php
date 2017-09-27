@@ -61,3 +61,9 @@ function coc_get_leadership_list() {
 
     return ob_get_clean();
 }
+
+add_shortcode('youtube_live_stream', 'render_live_stream');
+
+function render_live_stream() {
+    do_action("youtube_live_stream");
+}
