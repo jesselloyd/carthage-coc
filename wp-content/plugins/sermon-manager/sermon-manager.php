@@ -49,7 +49,7 @@ function plugin_menu_styles() {
 
 add_action( 'admin_menu', 'sermon_manager_menu' );
 function sermon_manager_menu() {
-	add_menu_page( 'Sermon Manager', 'Sermon Manager', 'manage_options', 'Sermon Manager', 'sermon_manager_options', '', 2 );
+	add_menu_page( 'Sermon Manager', 'Sermon Manager', 'manage_options', 'Sermon Manager', 'sermon_manager_options', 'dashicons-video-alt2', 2 );
 }
 
 function sermon_manager_options() {

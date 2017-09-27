@@ -17,7 +17,7 @@ require_once( dirname(__FILE__) . '/inc/directory-api.php');
 
 add_action( 'admin_menu', 'church_directory_menu' );
 function church_directory_menu() {
-	add_menu_page( 'Church Directory', 'Church Directory', 'manage_options', 'Church Directory', 'church_directory_options', '', 2 );
+	add_menu_page( 'Church Directory', 'Church Directory', 'manage_options', 'Church Directory', 'church_directory_options', 'dashicons-admin-users', 2 );
 }
 
 function church_directory_options() {

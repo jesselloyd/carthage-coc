@@ -11,6 +11,11 @@ function coc_sky_blue_parent_theme_enqueue_styles() {
 
 }
 
+add_action( 'wp_enqueue_scripts', 'load_dashicons_front_end' );
+function load_dashicons_front_end() {
+    wp_enqueue_style( 'dashicons' ); 
+}
+
 add_action('coc_sky_blue_footer_content', 'footer_content');
 
 function footer_content() {
