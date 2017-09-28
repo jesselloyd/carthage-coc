@@ -2,8 +2,8 @@
     <h1>Links</h1>
     <p>To add a link complete the inputs below and click 'Add Link'.</p>
     <form class="add-new-link" method="POST" enctype="multipart/form-data">
-        <input name="link_name" placeholder="Link name" required>
-        <input name="link_url" placeholder="Link url" required>
+        <input name="link_name" placeholder="Link name" size="50" required>
+        <input name="link_url" placeholder="Link url" size="30" required>
         <input name="logo_image_name" type="file" hidden required>
         <button class="button button-primary upload-image">Upload Image</button>
         <button type="submit" class="button button-primary disabled add-link">Add Link</button>
@@ -61,7 +61,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
     $('input').each(function(i, input) {
-        $(input).attr('size', $(input).val().length);
+        if ($(input).val().length) {
+            $(input).attr('size', $(input).val().length);
+        }
     });
 
     $('.upload-image').on('click', function() {

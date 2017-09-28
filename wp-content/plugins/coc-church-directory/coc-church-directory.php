@@ -3,6 +3,9 @@
  * Plugin Name:     Carthage church of Christ Church Directory
  * Plugin URI:      http://carthage-coc.com/help/directory/
  * Description:     Contains all functionality specific to the church directory service
+$sourcePath = $_FILES['file']['tmp_name'];       // Storing source path of the file in a variable
+$targetPath = "upload/".$_FILES['file']['name']; // Target path where file is to be stored
+move_uploaded_file($sourcePath,$targetPath) ;    // Moving Uploaded file
  * Author:          Jesse Lloyd
  * Author URI:      https://github.com/jesselloyd
  * Text Domain:     coc-church-directory
