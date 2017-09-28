@@ -278,6 +278,7 @@ footer.site-footer {
     color: #777777;
     padding: 2rem 3rem 0 3rem;
     min-height: calc(100vh - 128px);
+    overflow-x: hidden;
 }
 
 body.admin-bar #content {
