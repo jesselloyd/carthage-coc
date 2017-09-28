@@ -23,6 +23,44 @@ body {
     font-family: 'Avenir Next';
 }
 
+input {
+    background-color: #F9F9F9;
+    border: 0.1rem solid #CCCCCC;
+    border-radius: 0.2rem;
+    font-size: inherit;
+    padding: 1rem;
+    outline: none;
+}
+
+button,
+button:focus {
+    background-color: #00AAFF;
+    color: #FFFFFF;
+    padding: 1.5rem 1rem;
+    border: 0;
+    border-bottom: 0.5rem solid #1391D7;
+    font-size: inherit;
+    box-shadow: 0 1px 0 #006799;
+    font-family: 'Avenir Next';
+    font-weight: bold;
+    font-size: 120%;
+    min-width: 120px;
+    outline: none;
+}
+
+button:focus {
+    box-shadow: 0 1px 0 #0073aa, 0 0 2px 1px #33b3db;
+}
+
+button:hover {
+    background-color: #5AC9FF;
+    border-color: #00AAFF;
+}
+
+.full-width {
+    width: 100%;
+}
+
 .row {
     clear: both;
     padding: 0;
@@ -393,4 +431,10 @@ h1, h2, h3, h4, h5, h6 {
 
 #regular-mail h2 {
     color: #FFFFFF;
+}
+
+/* Links */
+
+.link {
+    margin-bottom: 2rem;
 }
