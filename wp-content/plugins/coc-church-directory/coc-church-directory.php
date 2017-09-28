@@ -33,3 +33,46 @@ function church_directory_options() {
     echo '========= PAGINATED DIRECTORY TO GO HERE =========';
 	echo '</div>';
 }
+
+add_shortcode('get_leadership', 'coc_get_leadership_list');
+
+function coc_get_leadership_list() {
+    ob_start();
+    global $wpdb;
+    $leader_meta = $wpdb->get_results("SELECT * FROM wp_usermeta WHERE user_id IN (SELECT user_id FROM wp_users) AND (meta_key = 'first_name' || meta_key = 'last_name');");
+
+    foreach ($leader_meta as $meta_key) {
+        if ($meta_key->meta_key == 'first_name') {
+            ?>
+                <div class="leader-item">
+                    <h3 class="grey-header"><?php echo $meta_key->meta_value . ' ' ?>
+            <?php
+        } else if ($meta_key->meta_key == 'last_name'){
+            ?>
+                <?php echo $meta_key->meta_value; ?></h3>
+                <h4>(417) 434 - 0754</h4>
+                <p>Description goes here</p>
+            </div>
+            <?php
+        }
+    }
+
+    return ob_get_clean();
+}
+
+add_shortcode('youtube_live_stream', 'render_live_stream');
+
+function render_live_stream() {
+    do_action("youtube_live_stream");
+}
+
+add_shortcode('theme_uri', 'coc_theme_uri_shortcode' );
+
+function coc_theme_uri_shortcode( $attrs = array (), $content = '' )
+{
+    $theme_uri = is_child_theme()
+        ? get_stylesheet_directory_uri()
+        : get_template_directory_uri();
+
+    return trailingslashit( $theme_uri );
+}

@@ -1,0 +1,30 @@
+.group:before,
+.group:after {
+    content: "";
+    display: table;
+}
+
+.group:after {
+    clear: both;
+}
+
+.group {
+    zoom: 1;
+    /* For IE 6/7 */
+}
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
+input.plugin-search {
+    min-width: 60%;
+}
+
+button.pull-right + button.pull-right {
+    margin-right: 1rem;
+}
