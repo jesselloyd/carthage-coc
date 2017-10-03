@@ -62,7 +62,7 @@ function get_coc_resource_links() {
     foreach ($links as $link) {
         ?>
             <div class="link">
-            <a href="<?php echo $link->link_url; ?>"><img src="<?php echo coc_theme_uri_shortcode() ?>/images/<?php echo $link->logo_image_name; ?>" alt="<?php echo $link->link_name ?>"></a>
+            <a href="<?php echo $link->link_url; ?>"><img src="<?php echo theme_uri_shortcode() ?>/images/<?php echo $link->logo_image_name; ?>" alt="<?php echo $link->link_name ?>"></a>
             </div> 
         <?php
     }
@@ -82,7 +82,7 @@ function get_coc_links_for_admin() {
                 <label for="link_url">Link Name</label>               
                 <input name="link_url" readonly value="<?php echo $link->link_name ?>">
                 <label for="link_url">Logo Image</label>
-                <img src="<?php echo coc_theme_uri_shortcode() ?>/images/<?php echo $link->logo_image_name; ?>">
+                <img src="<?php echo theme_uri_shortcode() ?>/images/<?php echo $link->logo_image_name; ?>">
             </div> 
         <?php
     }

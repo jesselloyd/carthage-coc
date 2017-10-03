@@ -3,10 +3,6 @@
  * Plugin Name:     Carthage church of Christ Church Directory
  * Plugin URI:      http://carthage-coc.com/help/directory/
  * Description:     Contains all functionality specific to the church directory service
-$sourcePath = $_FILES['file']['tmp_name'];       // Storing source path of the file in a variable
-$targetPath = "upload/".$_FILES['file']['name']; // Target path where file is to be stored
-move_uploaded_file($sourcePath,$targetPath) ;    // Moving Uploaded file
- * Author:          Jesse Lloyd
  * Author URI:      https://github.com/jesselloyd
  * Text Domain:     coc-church-directory
  * Domain Path:     /languages
@@ -15,10 +11,14 @@ move_uploaded_file($sourcePath,$targetPath) ;    // Moving Uploaded file
  * @package         Coc_Church_Directory
  */
 
+require_once( dirname(__FILE__) . '/inc/setup.php');
+register_activation_hook(__FILE__, 'church_directory_install');
+
 require_once( dirname(__FILE__) . '/inc/register-authentication.php');
 require_once( dirname(__FILE__) . '/inc/directory-api.php');
 
 add_action( 'admin_menu', 'church_directory_menu' );
+
 function church_directory_menu() {
 	add_menu_page( 'Church Directory', 'Church Directory', 'manage_options', 'Church Directory', 'church_directory_options', 'dashicons-admin-users', 2 );
 }
@@ -69,13 +69,45 @@ function render_live_stream() {
     do_action("youtube_live_stream");
 }
 
-add_shortcode('theme_uri', 'coc_theme_uri_shortcode' );
+add_shortcode('theme_uri', 'theme_uri_shortcode' );
 
-function coc_theme_uri_shortcode( $attrs = array (), $content = '' )
+function theme_uri_shortcode( $attrs = array (), $content = '' )
 {
     $theme_uri = is_child_theme()
         ? get_stylesheet_directory_uri()
         : get_template_directory_uri();
 
     return trailingslashit( $theme_uri );
+}
+
+add_shortcode('search_bar', 'search_bar_shortcode');
+
+add_action('wp_enqueue_scripts', 'jquery_script');
+add_action('wp_enqueue_scripts', 'search_bar_script');
+
+function search_bar_shortcode() {
+    wp_enqueue_script('jq');
+    wp_enqueue_script('jq-debounce');
+    wp_enqueue_script('search');
+    ob_start();
+    ?>
+    <form id="search" class="full-width">
+        <input placeholder="Search for church members..." />
+        <div class="suggestions">
+            <div class="item">
+                Jesse Lloyd
+            </div>
+        </div>
+    </form>
+    <?php
+    return ob_get_clean();
+}
+
+function jquery_script() {
+    wp_register_script('jq-debounce', plugins_url('node_modules/jquery/dist/jquery.throttle.debounce.min.js', __FILE__), '1.0.0', true);
+    wp_register_script('jq', plugins_url('node_modules/jquery/dist/jquery.min.js', __FILE__), array(), '3.2.1', true);
+}
+
+function search_bar_script() {
+    wp_register_script('search', plugins_url('inc/js/search.js', __FILE__), array(), '1.0.0', true );
 }
