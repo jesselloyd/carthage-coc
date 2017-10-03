@@ -21,6 +21,6 @@ function search_suggestions($request) {
     global $wpdb;
     return $wpdb->get_results(
         $wpdb->prepare(
-            "SELECT first_name, last_name, membership_level FROM coc_members cm JOIN wp_users wu ON cm.wp_user_ID = wu.ID"
+            "SELECT first_name, last_name, role FROM coc_members cm JOIN wp_users wu ON cm.wp_user_ID = wu.ID"
         ));
 }

@@ -29,4 +29,7 @@ function populateSearchSuggestions(res) {
 
 function populateSearchResults(res) {
     $('#search .results').html(res);
+    $('#search .count')
+        .html($(res).children().length + ' results')
+        .show();
 }
