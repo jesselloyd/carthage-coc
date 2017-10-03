@@ -91,13 +91,11 @@ function search_bar_shortcode() {
     wp_enqueue_script('search');
     ob_start();
     ?>
-    <form id="search" class="full-width">
-        <input placeholder="Search for church members..." />
-        <div class="suggestions">
-            <div class="item">
-                Jesse Lloyd
-            </div>
-        </div>
+    <form id="search" class="full-width" autocomplete="off">
+        <input placeholder="Search for church members..." id="searchterm" />
+        <div class="suggestions"></div>
+        <p class="count"></p>
+        <div class="results"></div>
     </form>
     <?php
     return ob_get_clean();

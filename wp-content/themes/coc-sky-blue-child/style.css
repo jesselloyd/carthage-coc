@@ -461,8 +461,63 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #FFFFFF;
     border: 0.1rem solid #DDDDDD;
     box-shadow: 0 0.3rem 0.8rem 0 rgba(0,0,0,0.2), 0 0 0 0.1rem rgba(0,0,0,0.08);
-    padding: 1rem;
     position: absolute;
     width: 100%;
     margin-top: -1.5rem;
+    user-select: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+#search .suggestions .item {
+    background-color: #FFFFFF;
+    cursor: pointer;
+    padding: 1rem;
+}
+
+#search .suggestions .item:hover {
+    background-color: #EFEFEF;
+}
+
+#search .suggestions .item img {
+    border-radius: 100%;
+    width: 3.2rem;
+    vertical-align: middle;
+    margin-right: 1rem;
+}
+
+#search .suggestions .item p {
+    vertical-align: middle;
+    display: inline;
+}
+
+
+#search .results .item {
+    font-size: 110%;
+    padding: 2rem 0;
+}
+
+#search .results .item p {
+    margin: 0 0 1rem 0;
+}
+
+#search .results .item .phone-number {
+    color: #00A3FF;
+    font-weight: bold;
+}
+
+#search .results .item img {
+    float: left;
+    margin-right: 2rem;
+}
+
+#search .results .item:nth-of-type(even) {
+    border-top: 0.5rem solid #00A3FF;
+}
+
+#search .count {
+    font-size: 120%;
+    font-weight: bold;
+    margin: 0;
 }
