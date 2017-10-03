@@ -476,7 +476,8 @@ h1, h2, h3, h4, h5, h6 {
     padding: 1rem;
 }
 
-#search .suggestions .item:hover {
+#search .suggestions .item:hover,
+#search .suggestions .item:focus {
     background-color: #EFEFEF;
 }
 
@@ -492,10 +493,13 @@ h1, h2, h3, h4, h5, h6 {
     display: inline;
 }
 
-
 #search .results .item {
     font-size: 110%;
     padding: 2rem 0;
+}
+
+#search .results .item .member-details {
+    margin-bottom: 2rem;
 }
 
 #search .results .item p {
@@ -520,4 +524,39 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 120%;
     font-weight: bold;
     margin: 0;
+}
+
+/* Card */
+
+.card {
+    box-shadow: 0 0.3rem 0.8rem 0 rgba(0,0,0,0.2), 0 0 0 0.1rem rgba(0,0,0,0.08);
+}
+
+.card-header {
+    background-color: #00A3FF;
+    color: #FFFFFF;
+    font-weight: bold;
+    padding: 1.5rem;
+}
+
+.card-body {
+    background-color: #FFFFFF;
+    padding: 2rem 1.5rem;
+}
+
+/* Sign up form */
+
+#sign-up-container {
+    max-width: 100rem;
+    margin: 0 auto;
+}
+
+#sign-up {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 3rem;
+}
+
+#sign-up input {
+    width: 100%;
 }

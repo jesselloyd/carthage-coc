@@ -74,13 +74,13 @@ function createSearchResultsItems(res) {
         results +=
             '<div class="item group">' +
             '<img src="/wp-content/uploads/images/' + item['profile_picture_url'] + '" />' +
-            '<a class="pull-right" href="mailto:' + item['email'] + '"><button>Email</button></a>' +
-            '<div class="pull-left"><p class="member-name"><b>' + item['first_name'] + ' ' + item['last_name']  + '</b>, ' + 
+            '<div class="pull-left member-details"><p class="member-name"><b>' + item['first_name'] + ' ' + item['last_name']  + '</b>, ' + 
             item['role_name'] + '</p>' + 
             '<p class="phone-number">' + item['phone_number'] + '</p>' +
-            '<p>' + item['address_line_1'] + (item['address_line_2'] ? item['address_line_2'] + '<br />' : '') + "<br />" + item['city'] + '<br />' + item['state'] + '<br />' + item['zipcode'] + '</div></div>';
+            '<p>' + item['address_line_1'] + (item['address_line_2'] ? item['address_line_2'] + '<br />' : '') + "<br />" + item['city'] + '<br />' + item['state'] + '<br />' + item['zipcode'] + '</div>' +
+            '<a class="pull-right" href="mailto:' + item['user_email'] + '"><button>Email</button></a>' +
+            '</div>';
     });
 
     return results;
 }
-

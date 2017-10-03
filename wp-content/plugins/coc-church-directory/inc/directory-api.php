@@ -23,8 +23,8 @@ function get_all_directory_members() {
     return $wpdb->get_results(
         $wpdb->prepare(
             "SELECT first_name, last_name, address_line_1,
-             address_line_2, city, state, zipcode, 
-             profile_picture_url, role_name
+             address_line_2, city, state, zipcode, phone_number 
+             profile_picture_url, role_name, user_email
              FROM coc_members cm 
              JOIN wp_users wu ON cm.wp_user_ID = wu.ID 
              JOIN coc_roles cr ON cm.role = cr.id;"
@@ -40,7 +40,7 @@ function search($request) {
         $wpdb->prepare(
             "SELECT first_name, last_name, address_line_1,
              address_line_2, city, state, zipcode, phone_number,
-             profile_picture_url, role_name
+             profile_picture_url, role_name, user_email
              FROM coc_members cm 
              JOIN wp_users wu ON cm.wp_user_ID = wu.ID 
              JOIN coc_roles cr ON cm.role_id = cr.id
@@ -56,7 +56,8 @@ function search_suggestions($request) {
     
     return $wpdb->get_results(
         $wpdb->prepare(
-            "SELECT first_name, last_name, profile_picture_url, role_name
+            "SELECT first_name, last_name, profile_picture_url, 
+             role_name
              FROM coc_members cm 
              JOIN wp_users wu ON cm.wp_user_ID = wu.ID 
              JOIN coc_roles cr ON cm.role_id = cr.id

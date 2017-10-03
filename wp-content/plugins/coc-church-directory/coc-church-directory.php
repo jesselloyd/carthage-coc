@@ -34,7 +34,7 @@ function church_directory_options() {
     echo '<button id="review-member-requests" class="button button-primary action pull-right">Review Membership Requests</button></div>';
     echo '<h3>Directory</h3>';
     echo '========= PAGINATED DIRECTORY TO GO HERE =========';
-	echo '</div>';
+    echo '</div>';
 }
 
 add_shortcode('get_leadership', 'coc_get_leadership_list');
@@ -92,7 +92,7 @@ function search_bar_shortcode() {
     ob_start();
     ?>
     <form id="search" class="full-width" autocomplete="off">
-        <input placeholder="Search for church members..." id="searchterm" />
+        <input tabindex="1" placeholder="Search for church members..." id="searchterm" />
         <div class="suggestions"></div>
         <p class="count"></p>
         <div class="results"></div>
@@ -108,4 +108,39 @@ function jquery_script() {
 
 function search_bar_script() {
     wp_register_script('search', plugins_url('inc/js/search.js', __FILE__), array(), '1.0.0', true );
+}
+
+add_shortcode('sign_up_form', 'sign_up_form_shortcode');
+
+function sign_up_form_shortcode() {
+    ob_start();
+    ?>
+        <div id="sign-up-container" class="card">
+            <div class="card-header">
+                Sign Up
+            </div>
+            <form id="sign-up" class="center-text card-body">
+                <p>After you have signed up, an elder will review your request. You will receive a confirmation email once you are approved. This will permit you to log into the member restricted portion of the website.</p>
+                <div class="spacer"></div><div class="spacer"></div>
+                <input name="first_name" placeholder="First Name" required />
+                <input name="last_name" placeholder="Last Name" required />
+                <input name="email" placeholder="Email" email />
+                <div class="spacer"></div><div class="spacer"></div>
+                <input name="address_line_1" placeholder="Address (Line 1)" required />
+                <input name="address_line_2" placeholder="Address (Line 2, Optional)" />
+                <input name="city" placeholder="City" required />
+                <input name="state" placeholder="State" required />
+                <input name="zipcode" placeholder="Zipcode" required />
+                <div class="spacer"></div><div class="spacer"></div>
+                <input name="phone_number" placeholder="Phone Number" required />
+                <input name="password" placeholder="Password" required />
+                <input name="confirm_password" placeholder="Confirm Password" required />
+                <div class="spacer"></div><div class="spacer"></div>
+                <button type="submit">Sign Up</button>
+                <div class="spacer"></div>
+                <p>Already a member? <a href="/wp-login">Log in</a></p>
+            </form>
+        </div>
+    <?php
+    return ob_get_clean();
 }
