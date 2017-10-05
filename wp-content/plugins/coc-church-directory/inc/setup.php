@@ -38,7 +38,8 @@ function church_directory_install() {
             zipcode CHAR(5) NOT NULL,
             phone_number VARCHAR(20),
             profile_picture_url VARCHAR(255) DEFAULT 'no_profile_picture.png' NOT NULL,
-            role_id INT(11) NOT NULL, 
+            role_id INT(11) DEFAULT 1 NOT NULL,
+            is_verified BIT(1) DEFAULT 0, 
             CONSTRAINT PK_COCMember PRIMARY KEY (id),
             CONSTRAINT FK_WPUser_COCMember FOREIGN KEY (wp_user_id)
             REFERENCES wp_users(ID),

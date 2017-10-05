@@ -4,6 +4,7 @@ remove_filter('the_content', 'wpautop');
 
 add_action( 'wp_enqueue_scripts', 'coc_sky_blue_parent_theme_enqueue_styles' );
 
+
 function coc_sky_blue_parent_theme_enqueue_styles() {
     wp_enqueue_style( 'coc-sky-blue-style', get_template_directory_uri() . '/style.css' );
     wp_enqueue_style( 'coc-sky-blue-child-style',
@@ -11,6 +12,9 @@ function coc_sky_blue_parent_theme_enqueue_styles() {
         array( 'coc-sky-blue-style' )
     );
 
+    wp_register_script( 'wp-api', includes_url() . 'js/wp-api.min.js');
+    wp_localize_script( 'wp-api', 'wpApiSettings', array('root' => esc_url_raw(rest_url()), 'nonce' => wp_create_nonce('wp_rest')));
+    wp_enqueue_script('wp-api'); 
 }
 
 add_action( 'wp_enqueue_scripts', 'load_dashicons_front_end' );

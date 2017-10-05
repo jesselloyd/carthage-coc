@@ -11,10 +11,10 @@
  * @package         Coc_Church_Directory
  */
 
+include_once(ABSPATH . 'wp-includes/pluggable.php');
 require_once( dirname(__FILE__) . '/inc/setup.php');
 register_activation_hook(__FILE__, 'church_directory_install');
 
-require_once( dirname(__FILE__) . '/inc/register-authentication.php');
 require_once( dirname(__FILE__) . '/inc/directory-api.php');
 
 add_action( 'admin_menu', 'church_directory_menu' );
@@ -84,10 +84,12 @@ add_shortcode('search_bar', 'search_bar_shortcode');
 
 add_action('wp_enqueue_scripts', 'jquery_script');
 add_action('wp_enqueue_scripts', 'search_bar_script');
+add_action('wp_enqueue_scripts', 'sign_up_script');
 
 function search_bar_shortcode() {
     wp_enqueue_script('jq');
     wp_enqueue_script('jq-debounce');
+    wp_enqueue_script('jq-ajax-nonce');
     wp_enqueue_script('search');
     ob_start();
     ?>
@@ -95,7 +97,9 @@ function search_bar_shortcode() {
         <input tabindex="1" placeholder="Search for church members..." id="searchterm" />
         <div class="suggestions"></div>
         <p class="count"></p>
-        <div class="results"></div>
+        <div class="results">
+            <h2 class="center-text">Search here to find church members</h2>
+        </div>
     </form>
     <?php
     return ob_get_clean();
@@ -104,43 +108,74 @@ function search_bar_shortcode() {
 function jquery_script() {
     wp_register_script('jq-debounce', plugins_url('node_modules/jquery/dist/jquery.throttle.debounce.min.js', __FILE__), '1.0.0', true);
     wp_register_script('jq', plugins_url('node_modules/jquery/dist/jquery.min.js', __FILE__), array(), '3.2.1', true);
+    wp_register_script('jq-ajax-nonce', plugins_url('inc/js/ajax-setup-nonce.js', __FILE__), array(), '1.0.0', true);
 }
 
 function search_bar_script() {
-    wp_register_script('search', plugins_url('inc/js/search.js', __FILE__), array(), '1.0.0', true );
+    wp_register_script('search', plugins_url('inc/js/search.js', __FILE__), array(), '1.0.0', true);
+}
+
+function sign_up_script() {
+    wp_register_script('sign-up', plugins_url('inc/js/sign-up.js', __FILE__), array(), '1.0.0', true);
 }
 
 add_shortcode('sign_up_form', 'sign_up_form_shortcode');
 
 function sign_up_form_shortcode() {
-    ob_start();
-    ?>
-        <div id="sign-up-container" class="card">
-            <div class="card-header">
-                Sign Up
+    global $user_ID;
+
+    ob_start(); 
+    if ($user_ID) {
+        ?>
+        <script>window.location.replace("/")</script>
+        <?php
+        return ob_get_clean();
+    } else {
+        wp_enqueue_script('jq');
+        wp_enqueue_script('sign-up');
+        ?>
+            <div id="sign-up-container" class="card">
+                <div class="card-header">
+                    Sign Up
+                </div>
+                <form id="sign-up" class="center-text card-body">
+                    <p>
+                        After you have signed up, an elder will review your request. 
+                        You will receive a confirmation email once you are approved. 
+                        This will permit you to log into the member restricted portion 
+                        of the website.
+                    </p>
+                    <div class="spacer"></div><div class="spacer"></div>
+                    <input name="username" placeholder="Username" required />
+                    <input name="first_name" placeholder="First Name" required />
+                    <input name="last_name" placeholder="Last Name" required />
+                    <input name="email" type="email" placeholder="Email" />
+                    
+                    <div class="spacer"></div><div class="spacer"></div>
+                    
+                    <input name="address_line_1" placeholder="Address (Line 1)" required />
+                    <input name="address_line_2" placeholder="Address (Line 2, Optional)" />
+                    <input name="city" placeholder="City" required />
+                    <input name="state" placeholder="State" required />
+                    <input name="zipcode" placeholder="Zipcode" required />
+                    
+                    <div class="spacer"></div><div class="spacer"></div>
+                    
+                    <input name="phone_number" placeholder="Phone Number" required />
+                    <input name="password" type="password" placeholder="Password" required />
+                    <input name="password_confirmation" type="password" placeholder="Confirm Password" required />
+                    
+                    <div class="spacer"></div><div class="spacer"></div>
+                    
+                    <button type="submit">Sign Up</button>
+                    <div class="spacer"></div>
+                    <p>
+                        Already a member? 
+                        <a href="/wp-login">Log in</a>
+                    </p>
+                </form>
             </div>
-            <form id="sign-up" class="center-text card-body">
-                <p>After you have signed up, an elder will review your request. You will receive a confirmation email once you are approved. This will permit you to log into the member restricted portion of the website.</p>
-                <div class="spacer"></div><div class="spacer"></div>
-                <input name="first_name" placeholder="First Name" required />
-                <input name="last_name" placeholder="Last Name" required />
-                <input name="email" placeholder="Email" email />
-                <div class="spacer"></div><div class="spacer"></div>
-                <input name="address_line_1" placeholder="Address (Line 1)" required />
-                <input name="address_line_2" placeholder="Address (Line 2, Optional)" />
-                <input name="city" placeholder="City" required />
-                <input name="state" placeholder="State" required />
-                <input name="zipcode" placeholder="Zipcode" required />
-                <div class="spacer"></div><div class="spacer"></div>
-                <input name="phone_number" placeholder="Phone Number" required />
-                <input name="password" placeholder="Password" required />
-                <input name="confirm_password" placeholder="Confirm Password" required />
-                <div class="spacer"></div><div class="spacer"></div>
-                <button type="submit">Sign Up</button>
-                <div class="spacer"></div>
-                <p>Already a member? <a href="/wp-login">Log in</a></p>
-            </form>
-        </div>
-    <?php
-    return ob_get_clean();
+        <?php
+        return ob_get_clean();
+    }
 }
