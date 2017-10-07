@@ -1,4 +1,4 @@
-$('#search input').on('keyup', $.debounce(300, handleSearchSuggestions));
+$('#search input').on('keyup click', $.debounce(300, handleSearchSuggestions));
 $('#search').on('submit', handleSearch);
 $('#search .suggestions').on('click', '.item', handleGetUserById);
 $('html').on('click', handleDismissSearchSuggestionsIfOutside);
@@ -57,6 +57,7 @@ function search(term) {
 function populateSearchSuggestions(res) {
     var suggestions = $("#search .suggestions");
     suggestions.html(createSuggestionItems(res));
+    suggestions.show();
     res.length ? 
           suggestions.css({ visibility: 'visible', opacity: 1 }) 
         : suggestions.css({ visibility: 'hidden' , opacity: 0 });
