@@ -1,6 +1,7 @@
 $('#search input').on('keyup', $.debounce(300, handleSearchSuggestions));
 $('#search').on('submit', handleSearch);
-$('#search .suggestions').on('click', '.item', handleSearch);
+$('#search .suggestions').on('click', '.item', handleGetUserById);
+$('html').on('click', handleDismissSearchSuggestionsIfOutside);
 
 function handleSearchSuggestions() {
     var term = $('#search').find('input').val();
@@ -23,6 +24,26 @@ function handleSearch(e) {
         search($(this).find('input').val());
         $("#search input#searchterm").val('');
     }
+}
+
+function handleGetUserById() {
+    getUserById($(this).attr('id'));
+}
+
+function handleDismissSearchSuggestionsIfOutside(e) {
+    if (!$(e.currentTarget).is('.suggestions .item')) {
+        $('#search .suggestions').hide();
+    }
+}
+
+function getUserById(id) {
+    $.get(
+        '/wp-json/directory/user/' + id,
+        function(res) {
+            populateSearchResults(res);
+            $('#search .suggestions').empty();
+        }
+    )
 }
 
 function search(term) {
@@ -59,7 +80,7 @@ function createSuggestionItems(res) {
     var suggestions = "";
     res.forEach(function(item) {
         suggestions += 
-            '<div class="item">' +
+            '<div class="item" id="' + item['id'] + '">' +
             '<img src="/wp-content/uploads/images/' + item['profile_picture_url'] + '" />' + 
             '<p><b>' + item['first_name'] + ' ' + item['last_name']  + '</b>, ' + 
             item['role_name'] + '</p><input type="hidden" value="' + item['first_name'] + ' ' + item['last_name'] + '"></div>';
@@ -77,7 +98,7 @@ function createSearchResultsItems(res) {
             '<div class="pull-left member-details"><p class="member-name"><b>' + item['first_name'] + ' ' + item['last_name']  + '</b>, ' + 
             item['role_name'] + '</p>' + 
             '<p class="phone-number">' + item['phone_number'] + '</p>' +
-            '<p>' + item['address_line_1'] + (item['address_line_2'] ? item['address_line_2'] + '<br />' : '') + "<br />" + item['city'] + '<br />' + item['state'] + '<br />' + item['zipcode'] + '</div>' +
+            '<p>' + item['address_line_1'] + (item['address_line_2'] ? '<br />' + item['address_line_2'] + '<br />' : '') + "<br />" + item['city'] + '<br />' + item['state'] + '<br />' + item['zipcode'] + '</div>' +
             '<a class="pull-right" href="mailto:' + item['user_email'] + '"><button>Email</button></a>' +
             '</div>';
     });

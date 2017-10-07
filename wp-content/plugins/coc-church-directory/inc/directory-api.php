@@ -1,4 +1,5 @@
 <?php
+
 include_once(ABSPATH . 'wp-includes/pluggable.php');
 add_action('rest_api_init', function() {
     register_rest_route('/directory', '/all', array(
@@ -27,7 +28,15 @@ add_action('rest_api_init', function() {
 
     register_rest_route('/directory', '/register', array(
         'methods' => 'POST',
-        'callback' => 'register',
+        'callback' => 'register'
+    ));
+
+    register_rest_route('/directory/', 'user/(?P<id>\d+)', array(
+        'methods' => 'GET',
+        'callback' => 'get_user_by_id',
+        'permission_callback' => function() {
+            return current_user_can('read');
+        }
     ));
 });
 
@@ -48,11 +57,11 @@ function get_all_directory_members() {
 
 function search($request) {
     global $wpdb;
-    $terms = str_replace(" ", "|", $request['term']);
+    $terms = str_replace(" ", "|", trim($request['term']));
 
     return $wpdb->get_results(
         $wpdb->prepare(
-            "SELECT first_name, last_name, address_line_1,
+            "SELECT cm.id, first_name, last_name, address_line_1,
              address_line_2, city, state, zipcode, phone_number,
              profile_picture_url, role_name, user_email
              FROM coc_members cm 
@@ -64,16 +73,33 @@ function search($request) {
      );
 }
 
+function get_user_by_id($request) {
+    global $wpdb;
+
+    return $wpdb->get_results(
+        $wpdb->prepare(
+            "SELECT cm.id, first_name, last_name, address_line_1,
+             address_line_2, city, state, zipcode, phone_number,
+             profile_picture_url, role_name, user_email
+             FROM coc_members cm
+             JOIN wp_users wu ON cm.wp_user_ID = wu.ID
+             JOIN coc_roles cr ON cm.role_id = cr.id
+             WHERE cm.id = %d;",
+            $request['id']
+        )
+    );
+}
+
 function search_suggestions($request) {
     global $wpdb;
     $terms = str_replace(" ", "|", trim($request['term']));
     
     return $wpdb->get_results(
         $wpdb->prepare(
-            "SELECT first_name, last_name, profile_picture_url, 
+            "SELECT cm.id, first_name, last_name, profile_picture_url,
              role_name
-             FROM coc_members cm 
-             JOIN wp_users wu ON cm.wp_user_ID = wu.ID 
+             FROM coc_members cm
+             JOIN wp_users wu ON cm.wp_user_ID = wu.ID
              JOIN coc_roles cr ON cm.role_id = cr.id
              WHERE CONCAT(first_name, ' ', last_name) REGEXP '%s';",
              $terms
@@ -151,5 +177,7 @@ function directory_specific_register($wp_user_id, $details) {
         )
     );
 
-    return $wpdb->get_results($wpdb->prepare("SELECT id FROM coc_members WHERE wp_user_id = %d", $wp_user_id));
+    return $wpdb->get_results(
+        $wpdb->prepare("SELECT id FROM coc_members WHERE wp_user_id = %d", $wp_user_id)
+    );
 }
