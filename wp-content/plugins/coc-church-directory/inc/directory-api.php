@@ -67,8 +67,8 @@ function search($request) {
              FROM coc_members cm 
              JOIN wp_users wu ON cm.wp_user_ID = wu.ID 
              JOIN coc_roles cr ON cm.role_id = cr.id
-             WHERE CONCAT(first_name, ' ', last_name) REGEXP '%s';",
-             $terms
+             WHERE dm(first_name) = dm('%s') || dm(last_name) = dm('%s') || dm(CONCAT(first_name, ' ', last_name)) = dm('%s');",
+             $terms, $terms, $terms
          )
      );
 }
@@ -90,6 +90,23 @@ function get_user_by_id($request) {
     );
 }
 
+function get_users_by_role_name($request) {
+    global $wpdb;
+
+    return $wpdb->get_results(
+        $wpdb->prepare(
+            "SELECT cm.id, first_name, last_name, address_line_1,
+             address_line_2, city, state, zipcode, phone_number,
+             profile_picture_url, role_name, user_email
+             FROM coc_members cm
+             JOIN wp_users wu ON cm.wp_user_ID = wu.ID
+             JOIN coc_roles cr ON cm.role_id = cr.id
+             WHERE cr.role_name = %s;",
+            $request['role_name']
+        )
+    );
+}
+
 function search_suggestions($request) {
     global $wpdb;
     $terms = str_replace(" ", "|", trim($request['term']));
@@ -101,8 +118,8 @@ function search_suggestions($request) {
              FROM coc_members cm
              JOIN wp_users wu ON cm.wp_user_ID = wu.ID
              JOIN coc_roles cr ON cm.role_id = cr.id
-             WHERE CONCAT(first_name, ' ', last_name) REGEXP '%s';",
-             $terms
+             WHERE dm(first_name) = dm('%s') || dm(last_name) = dm('%s') || dm(CONCAT(first_name, ' ', last_name)) = dm('%s');",
+             $terms, $terms, $terms
          )
      );
 }
